@@ -1,17 +1,22 @@
 const scriptURL = "https://raw.githubusercontent.com/dballsworth/nextGigWidget/main/nextGigWidget.js";
-const scriptName = "nextGigWidget";
+const imageURL = "https://raw.githubusercontent.com/dballsworth/nextGigWidget/main/dblogo.jpeg";
 
-async function downloadScript(url, name) {
+const scriptName = "nextGigWidget";
+const imageName = "dblogo";
+
+async function downloadFile(url, name, extension) {
     let fm = FileManager.iCloud();
-    let path = fm.joinPath(fm.documentsDirectory(), `${name}.js`);
+    let path = fm.joinPath(fm.documentsDirectory(), `${name}.${extension}`);
 
     let req = new Request(url);
-    let scriptContent = await req.loadString();
+    let fileContent = await req.load();
 
-    fm.writeString(path, scriptContent);
-    console.log(`Script saved to ${path}`);
+    fm.write(path, fileContent);
+    console.log(`File saved to ${path}`);
     return path;
 }
 
-let scriptPath = await downloadScript(scriptURL, scriptName);
+let scriptPath = await downloadFile(scriptURL, scriptName, "js");
+let imagePath = await downloadFile(imageURL, imageName, "jpeg");
+
 Safari.open(`scriptable:///run/${encodeURIComponent(scriptName)}`);
