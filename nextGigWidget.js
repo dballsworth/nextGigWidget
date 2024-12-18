@@ -150,14 +150,17 @@ async function checkForUpdate() {
         console.log("Script downloaded for the first time.");
     } else {
         let currentModifiedDate = fm.modificationDate(path); //not working right
-        console.log("currentModifiedDate: ");
-        console.log(currentModifiedDate);
+        
 
         if (latestModifiedDate > currentModifiedDate) {
             fm.writeString(path, latestScript);
             console.log("Script updated to the latest version..");
         } else {
             console.log("No updates available.");
+            console.log("currentModifiedDate locally: ");
+            console.log(currentModifiedDate);
+            console.log("latestModifiedDate from server: ");
+            console.log(latestModifiedDate);
         }
     }
 }
