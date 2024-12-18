@@ -1,7 +1,7 @@
 // jshint -W119
 
 let scriptName = 'AutoUpdateExample';
-let scriptUrl = 'https://raw.github.com/dballsworth/nextGigWidget/blob/main/autoupdate/autoupdateExample.js';
+let scriptUrl = 'https://raw.githubusercontent.com/dballsworth/nextGigWidget/refs/heads/main/autoupdate/autoupdateExample.js';
 
 let modulePath = await downloadModule(scriptName, scriptUrl); // jshint ignore:line
 if (modulePath != null) {
