@@ -152,7 +152,7 @@ async function checkForUpdate() {
         let currentModifiedDate = fm.modificationDate(path);
         if (latestModifiedDate > currentModifiedDate) {
             fm.writeString(path, latestScript);
-            console.log("Script updated to the latest version.");
+            console.log("Script updated to the latest version..");
         } else {
             console.log("No updates available.");
         }
