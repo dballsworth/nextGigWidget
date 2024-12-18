@@ -2,7 +2,8 @@
 // These must be at the very top of the file. Do not edit.
 // icon-color: deep-gray; icon-glyph: grin-tongue-squint;
 
-const scriptURL = "https://raw.githubusercontent.com/dballsworth/nextGigWidget/main/nextGigWidget.js"; // Hosted script URL
+const scriptURL = "https://raw.githubusercontent.com/dballsworth/nextGigWidget/main/nextGigWidget.js"; //hosted script URL
+const imageURL = "https://raw.githubusercontent.com/dballsworth/nextGigWidget/main/dblogo.jpeg"; //hosted dependent file URL
 const scriptName = "nextGigWidget";
 
 async function createWidget() {
@@ -47,8 +48,18 @@ async function createWidget() {
 async function loadLogoImage(filename) {
     let files = FileManager.iCloud();
     let path = files.joinPath(files.documentsDirectory(), filename);
+    
+    if (!files.fileExists(path)) {
+        console.log("Image not found locally. Downloading from URL...");
+        let req = new Request(imageURL);
+        let img = await req.loadImage();
+        files.writeImage(path, img);
+        return img;
+    }
+    
     return files.readImage(path);
 }
+
 
 // Fetch and format countdown text
 async function getCountdownText() {
