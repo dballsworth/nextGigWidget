@@ -149,7 +149,7 @@ async function checkForUpdate() {
         fm.writeString(path, latestScript);
         console.log("Script downloaded for the first time.");
     } else {
-        let currentModifiedDate = fm.getMetadata(path).modificationDate;
+        let currentModifiedDate = fm.modificationDate(path);
         if (latestModifiedDate > currentModifiedDate) {
             fm.writeString(path, latestScript);
             console.log("Script updated to the latest version.");
