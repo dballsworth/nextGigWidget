@@ -143,12 +143,19 @@ async function checkForUpdate() {
 
     let req = new Request(scriptURL);
     let latestScript = await req.loadString();
+    let latestModifiedDate = req.response.headers['Last-Modified'];
 
-    if (!fm.fileExists(path) || fm.readString(path) !== latestScript) {
+    if (!fm.fileExists(path)) {
         fm.writeString(path, latestScript);
-        console.log("Script updated to the latest version.");
+        console.log("Script downloaded for the first time.");
     } else {
-        console.log("No updates available.");
+        let currentModifiedDate = fm.getMetadata(path).modificationDate;
+        if (latestModifiedDate > currentModifiedDate) {
+            fm.writeString(path, latestScript);
+            console.log("Script updated to the latest version.");
+        } else {
+            console.log("No updates available.");
+        }
     }
 }
 
