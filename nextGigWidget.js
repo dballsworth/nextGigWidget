@@ -127,7 +127,7 @@ function addTextToStack(stack, text, font, color) {
 function getCountdown(eventDate) {
     let eventDateTime = new Date(eventDate);
     let currentDateTime = new Date();
-    let daysLeft = Math.ceil((eventDateTime - currentDateTime) / (1000 * 60 * 60 * 24));
+    let daysLeft = Math.floor((eventDateTime - currentDateTime) / (1000 * 60 * 60 * 24));
     return daysLeft > 0 ? `${daysLeft} days` : "Today!";
 }
 
@@ -149,7 +149,10 @@ async function checkForUpdate() {
         fm.writeString(path, latestScript);
         console.log("Script downloaded for the first time.");
     } else {
-        let currentModifiedDate = fm.modificationDate(path);
+        let currentModifiedDate = fm.modificationDate(path); //not working right
+        console.log("currentModifiedDate: ");
+        console.log(currentModifiedDate);
+
         if (latestModifiedDate > currentModifiedDate) {
             fm.writeString(path, latestScript);
             console.log("Script updated to the latest version..");
