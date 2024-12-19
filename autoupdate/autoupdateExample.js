@@ -4,8 +4,10 @@ let scriptName = 'AutoUpdateExample';
 let scriptUrl = 'https://raw.githubusercontent.com/dballsworth/nextGigWidget/refs/heads/main/autoupdate/autoupdateExample.js';
 
 let modulePath = await downloadModule(scriptName, scriptUrl); // jshint ignore:line
+
 if (modulePath != null) {
-  let importedModule = require(modulePath);
+  console.log('Module path: ' + modulePath);
+  let importedModule = importedModule(modulePath);
   await importedModule.main(); // jshint ignore:line
 } else {
   console.log('Failed to download new module and could not find any local version..');
