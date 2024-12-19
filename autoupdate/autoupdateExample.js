@@ -8,7 +8,7 @@ if (modulePath != null) {
   let importedModule = importModule(modulePath);
   await importedModule.main(); // jshint ignore:line
 } else {
-  console.log('Failed to download new module and could not find any local version.');
+  console.log('Failed to download new module and could not find any local version..');
 }
 
 async function downloadModule(scriptName, scriptUrl) {
