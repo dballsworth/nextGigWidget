@@ -5,7 +5,7 @@ let scriptUrl = 'https://raw.githubusercontent.com/dballsworth/nextGigWidget/ref
 
 let modulePath = await downloadModule(scriptName, scriptUrl); // jshint ignore:line
 if (modulePath != null) {
-  let importedModule = importModule(modulePath);
+  let importedModule = require(modulePath);
   await importedModule.main(); // jshint ignore:line
 } else {
   console.log('Failed to download new module and could not find any local version..');
