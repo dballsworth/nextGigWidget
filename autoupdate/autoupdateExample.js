@@ -1,13 +1,12 @@
 // jshint -W119
 
 let scriptName = 'AutoUpdateExample';
-let scriptUrl = 'https://raw.githubusercontent.com/dballsworth/nextGigWidget/refs/heads/main/autoupdate/autoupdateExample.js';
+let scriptUrl = 'https://raw.githubusercontent.com/dballsworth/nextGigWidget/refs/heads/main/autoupdate/yourScript.js';
 
 let modulePath = await downloadModule(scriptName, scriptUrl); // jshint ignore:line
-
-if (modulePath != null) {
   console.log('Module path: ' + modulePath);
-  let importedModule = importedModule(modulePath);
+if (modulePath != null) {
+  let importedModule = importModule(modulePath);
   await importedModule.main(); // jshint ignore:line
 } else {
   console.log('Failed to download new module and could not find any local version..');
