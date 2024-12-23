@@ -39,6 +39,8 @@ async function downloadModule(scriptName, scriptUrl) {
     return null;
   });
   if (moduleJs) {
+    // console.log the moduleJs last modified date from GitHub
+    console.log('Module downloaded ' + moduleFilename + ' from URL: ' + scriptUrl + ' - ' + req.response.headers['Last-Modified']);
     fm.write(modulePath, moduleJs);
     if (moduleFiles != null) {
       moduleFiles.map(x => {
