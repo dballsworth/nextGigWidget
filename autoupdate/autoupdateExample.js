@@ -4,7 +4,7 @@ let scriptName = 'AutoUpdateExample';
 let scriptUrl = 'https://raw.githubusercontent.com/dballsworth/nextGigWidget/refs/heads/main/autoupdate/yourScript.js';
 
 let modulePath = await downloadModule(scriptName, scriptUrl); // jshint ignore:line
-  console.log('Module path: ' + modulePath);
+console.log('Module path: ' + modulePath);
 if (modulePath != null) {
   let importedModule = importModule(modulePath);
   await importedModule.main(); // jshint ignore:line
@@ -23,27 +23,32 @@ async function downloadModule(scriptName, scriptUrl) {
   let moduleFilename = dayNumber.toString() + '.js';
   let modulePath = fm.joinPath(moduleDir, moduleFilename);
   if (fm.fileExists(modulePath)) {
-    console.log('Module already downlaoded ' + moduleFilename);
+    let fileInfo = fm.fileInfo(modulePath);
+    let lastModified = new Date(fileInfo.modified);
+    let now = new Date();
+    let diffInSeconds = (now - lastModified) / 1000;
+    if (diffInSeconds <= 60) {
+      console.log('Module already downloaded ' + moduleFilename);
+      return modulePath;
+    }
+  }
+  let [moduleFiles, moduleLatestFile] = getModuleVersions(scriptName);
+  console.log('Downloading ' + moduleFilename + ' from URL: ' + scriptUrl);
+  let req = new Request(scriptUrl);
+  let moduleJs = await req.load().catch(() => {
+    return null;
+  });
+  if (moduleJs) {
+    fm.write(modulePath, moduleJs);
+    if (moduleFiles != null) {
+      moduleFiles.map(x => {
+        fm.remove(fm.joinPath(moduleDir, x));
+      });
+    }
     return modulePath;
   } else {
-    let [moduleFiles, moduleLatestFile] = getModuleVersions(scriptName);
-    console.log('Downloading ' + moduleFilename + ' from URL: ' + scriptUrl);
-    let req = new Request(scriptUrl);
-    let moduleJs = await req.load().catch(() => {
-      return null;
-    });
-    if (moduleJs) {
-      fm.write(modulePath, moduleJs);
-      if (moduleFiles != null) {
-        moduleFiles.map(x => {
-          fm.remove(fm.joinPath(moduleDir, x));
-        });
-      }
-      return modulePath;
-    } else {
-      console.log('Failed to download new module. Using latest local version: ' + moduleLatestFile);
-      return (moduleLatestFile != null) ? fm.joinPath(moduleDir, moduleLatestFile) : null;
-    }
+    console.log('Failed to download new module. Using latest local version: ' + moduleLatestFile);
+    return (moduleLatestFile != null) ? fm.joinPath(moduleDir, moduleLatestFile) : null;
   }
 }
 
