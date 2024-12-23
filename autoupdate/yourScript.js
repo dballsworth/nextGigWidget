@@ -10,7 +10,7 @@ const scriptName = "nextGigWidget";
 
 async function createWidget() {
     // Check for updates before running the widget
-    await checkForUpdate();
+    //await checkForUpdate();
 
     // Create a new ListWidget instance
     let listwidget = new ListWidget();
