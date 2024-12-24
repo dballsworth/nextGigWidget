@@ -40,7 +40,12 @@ async function downloadModule(scriptName, scriptUrl) {
   });
   if (moduleJs) {
     // console.log the moduleJs last modified date from GitHub
-    console.log('Module downloaded ' + moduleFilename + ' from URL: ' + scriptUrl + ' - ' + req.responseHeaders['Last-Modified']);
+    let lastModified = req.responseHeaders['Last-Modified'];
+    if (lastModified) {
+      console.log('Module downloaded ' + moduleFilename + ' from URL: ' + scriptUrl + ' - Last Modified: ' + lastModified);
+    } else {
+      console.log('Module downloaded ' + moduleFilename + ' from URL: ' + scriptUrl + ' - Last Modified date not available');
+    }
     fm.write(modulePath, moduleJs);
     if (moduleFiles != null) {
       moduleFiles.map(x => {
